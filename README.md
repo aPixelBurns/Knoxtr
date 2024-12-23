@@ -1,7 +1,79 @@
 # Knoxtr
 Knoxtr-Amethyst PentaCore Full Node
 
+classDiagram
+    class Submission {
+        +string id
+        +Metadata metadata
+        +Content content
+        +Interactions[] interactions
+        +State state
+        +validateSubmission()
+        +updateState()
+        +processInteractions()
+    }
 
+    class DHT_Registry {
+        +NamespacePacket[] namespaces
+        +SubmissionPacket[] submissions
+        +TokenPacket[] tokens
+        +EventPacket[] events
+        +ReputationPacket[] reputations
+        +registerPacket()
+        +queryPacket()
+        +updatePacket()
+    }
+
+    class DiscussionRoom {
+        +EntryConfig entryCosts
+        +ValidationRules validationRules
+        +PrivilegeRules privilegeRules
+        +TimeConstraints timeConstraints
+        +EventTriggers eventTriggers
+        +processEntry()
+        +enforceRules()
+        +handleEvents()
+    }
+
+    class TokenMutation {
+        +BurnRules burnRules
+        +IssuanceRules issuanceRules
+        +ConversionRules conversionRules
+        +ReallocationRules reallocationRules
+        +MutationRules mutationRules
+        +processBurn()
+        +handleIssuance()
+        +executeConversion()
+    }
+
+    class Metadata {
+        +string author
+        +timestamp datetime
+        +string namespaceLink
+    }
+
+    class Content {
+        +string type
+        +bytes payload
+    }
+
+    class State {
+        +string status
+        +TokenFlow[] tokenFlows
+    }
+
+    Submission --> Metadata
+    Submission --> Content
+    Submission --> State
+    DHT_Registry --> Submission
+    DiscussionRoom --> DHT_Registry
+    TokenMutation --> DHT_Registry
+    DiscussionRoom --> TokenMutation
+
+    link Submission "Processes submissions\nand manages state"
+    link DHT_Registry "Distributed storage\nand packet management"
+    link DiscussionRoom "Room configuration\nand rule enforcement"
+    link TokenMutation "Token economy\nand mutation logic"
 The On Chain paradigm and the On Node paradigm represent two distinct approaches in the Bitcoin and broader blockchain ecosystem. While both paradigms share foundational values of decentralization, transparency, and security, they differ in how these values are expressed and enacted. Knoxtr, as a system built on Bitcoin principles, favors the On Node paradigm while leveraging the On Chain paradigm through its multi-tip meta-consensus.
 
 1. On Chain Paradigm
